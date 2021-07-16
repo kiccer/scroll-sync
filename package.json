@@ -1,0 +1,11 @@
+{
+  "name": "scroll-sync",
+  "version": "0.0.1-alpha.1",
+  "description": "滚动同步",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kiccer <1072907338@qq.com>",
+  "license": "MIT"
+}
