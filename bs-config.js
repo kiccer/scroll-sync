@@ -1,7 +1,10 @@
+const path = require('path')
+
 module.exports = {
     port: 3000,
     files: [
-        './src/**/*.{html,htm,css,js}'
+        // './**/*.{html,htm,css,js}'
+        path.resolve(__dirname, '**/*.{html,htm,css,less,js}')
     ],
     server: {
         baseDir: './docs'

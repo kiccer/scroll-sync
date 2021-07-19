@@ -5,23 +5,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scroll Sync Document</title>
-    <link rel="stylesheet" href="index.less">
+    <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/theme-chalk/index.min.css" rel="stylesheet">
+    <link rel="stylesheet/less" href="index.less">
 </head>
 <body>
     <div id="app">
-        
+        <h1 class="page-title">Scroll Sync</h1>
+        <p>本插件的作用是将多个元素的滚动进行联动，实现同步目的，支持绝对位置同步和总进度的同步。</p>
+        <p>插件的使用方法可以查看本页面的源码。</p>
+
+        <h2>例子：</h2>
+        <div class="config-1">
+            <p>开启同步：<el-switch v-model="config1.sync" @change="ss1SyncChange" /></p>
+            <p>
+                <el-switch
+                    v-model="config1.status"
+                    inactive-text="固定同步"
+                    active-text="相对同步"
+                >
+            </p>
+        </div>
+        <div class="example-1">
+            <div
+                class="scroll-body"
+                v-for="n in 3"
+                :key="n"
+            >
+                <p
+                    v-for="m in 20"
+                    :key="m"
+                >test-{{ m }}</p>
+            </div>
+        </div>
     </div>
 </body>
 <script src="https://cdn.bootcdn.net/ajax/libs/less.js/4.1.1/less.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.14/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/index.min.js"></script>
 <script src="./lib/scroll-sync.min.js"></script>
 <script>
     /* global Vue ScrollSync */
     // eslint-disable-next-line no-new
     new Vue({
-        el: '#app'
-    })
+        el: '#app',
 
-    console.log(ScrollSync)
+        data () {
+            return {
+                ss1: null,
+                config1: {
+                    sync: true,
+                    status: false
+                }
+            }
+        },
+    
+        mounted () {
+            this.ss1 = new ScrollSync({
+                doms: document.querySelectorAll('.example-1 .scroll-body')
+            })
+        },
+
+        methods: {
+            ss1SyncChange (v) {
+                this.ss1.switch(!v)
+            }
+        }
+    })
 </script>
 </html>
