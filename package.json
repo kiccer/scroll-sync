@@ -2,23 +2,31 @@
   "name": "scroll-sync",
   "version": "0.0.1-alpha.1",
   "description": "滚动同步",
-  "main": "index.js",
+  "main": "src/index.js",
+  "module": "dist/scroll-sync.min.js",
   "scripts": {
     "dev": "webpack",
+    "lite-server": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint-init": "eslint --init"
+    "eslint-init": "eslint --init",
+    "webpack-init": "npx webpack init"
   },
   "author": "kiccer <1072907338@qq.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@webpack-cli/generators": "^2.2.0",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "7",
     "eslint": "^7.30.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-html": "^6.1.2",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "webpack": "^5.44.0",
-    "webpack-cli": "^4.7.2"
+    "webpack": "^5.45.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
   }
 }
