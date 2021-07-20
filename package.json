@@ -1,6 +1,6 @@
 {
   "name": "scroll-sync",
-  "version": "0.1.0-beta.4",
+  "version": "0.1.0",
   "description": "滚动同步",
   "main": "src/index.js",
   "module": "dist/scroll-sync.min.js",
