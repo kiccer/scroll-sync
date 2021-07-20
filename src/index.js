@@ -33,6 +33,7 @@ class ScrollSync {
     // 增加同步元素
     add (els = []) {
         if (!els && !els.length) throw Error('Please enter the element or element group.')
+        this.clearSync()
         this.doms = this.doms.concat(els)
         this.autoSync()
     }
@@ -41,6 +42,7 @@ class ScrollSync {
     remove (els = []) {
         if (!els && !els.length) throw Error('Please enter the element or element group.')
         const delList = [].concat(els)
+        this.clearSync()
         this.doms = this.doms.filter(n => !delList.includes(n))
         this.autoSync()
     }
@@ -48,6 +50,7 @@ class ScrollSync {
     // 设置同步元素
     set (els = []) {
         if (!els && !els.length) throw Error('Please enter the element or element group.')
+        this.clearSync()
         this.doms = [].concat(els)
         this.autoSync()
     }
