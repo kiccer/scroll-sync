@@ -1,69 +1,121 @@
 class ScrollSync {
     constructor (config = {}) {
         const {
+            disabled = false,
+            relative = true,
             doms = []
         } = config
 
         this.doms = [...doms]
-        this.disabled = false
+        this.disabled = disabled
+        this.relative = relative
         this.syncData = []
         this.autoSync()
     }
 
-    // 开关
-    switch (disabled = false) {
-        this.disabled = disabled ?? !this.disabled
+    // 增加同步元素
+    add (els = []) {
+        if (!els && !els.length) throw Error('Please enter the element or element group.')
+        this.doms = this.doms.concat(els)
+        this.autoSync()
+    }
+
+    // 删除同步元素
+    remove (els = []) {
+        if (!els && !els.length) throw Error('Please enter the element or element group.')
+        const delList = [].concat(els)
+        this.doms = this.doms.filter(n => !delList.includes(n))
+        this.autoSync()
+    }
+
+    // 设置同步元素
+    set (els = []) {
+        if (!els && !els.length) throw Error('Please enter the element or element group.')
+        this.doms = [].concat(els)
+        this.autoSync()
+    }
+
+    // 清除同步
+    clearSync () {
+        this.syncData.forEach(n => {
+            this.#off(n.el, 'scroll', n.event)
+        })
+        this.syncData = []
     }
 
     // 同步滚动方法
     autoSync () {
-        console.log(this.doms)
+        this.clearSync()
+
         this.doms.forEach((el, i) => {
-            // const el = n.$el.querySelector('.list-scroll')
             const event = e => {
                 if (this.disabled) return
 
+                const {
+                    scrollWidth,
+                    scrollHeight,
+                    scrollLeft,
+                    scrollTop,
+                    clientWidth,
+                    clientHeight
+                } = (e.target.documentElement ?? e.target)
+
                 this.syncData.filter(n => n.el !== e.target).forEach(n => {
                     clearTimeout(n.timer)
-                    n.el.removeEventListener('scroll', n.event)
-                    n.el.scrollTo(0, e.target.scrollTop)
+                    this.#off(n.el, 'scroll', n.event)
+
+                    if (this.relative) {
+                        const progressW = scrollLeft / (scrollWidth - clientWidth)
+                        const progressH = scrollTop / (scrollHeight - clientHeight)
+
+                        const {
+                            scrollWidth: _scrollWidth,
+                            scrollHeight: _scrollHeight,
+                            // scrollLeft: _scrollLeft,
+                            // scrollTop: _scrollTop,
+                            clientWidth: _clientWidth,
+                            clientHeight: _clientHeight
+                        } = (n.el.documentElement ?? n.el)
+
+                        ;(n.el.documentElement ?? n.el).scrollTo(
+                            (_scrollWidth - _clientWidth) * progressW,
+                            (_scrollHeight - _clientHeight) * progressH
+                        )
+                    } else {
+                        ;(n.el.documentElement ?? n.el).scrollTo(
+                            e.target.scrollLeft,
+                            e.target.scrollTop
+                        )
+                    }
+
                     n.timer = setTimeout(() => {
-                        n.el.addEventListener('scroll', n.event)
+                        this.#on(n.el, 'scroll', n.event)
                     }, 50)
                 })
             }
 
             this.syncData.push({ el, event })
 
-            el.addEventListener('scroll', event)
+            this.#on(el, 'scroll', event)
         })
     }
+
+    #el (el) {
+        return [
+            document,
+            document.documentElement
+        ].includes(el)
+            ? document
+            : el
+    }
+
+    #on (el, ...evtParams) {
+        this.#el(el).addEventListener(...evtParams)
+    }
+
+    #off (el, ...evtParams) {
+        this.#el(el).removeEventListener(...evtParams)
+    }
 }
-
-// function scrollSync () {
-//     const products = []
-
-//     this.$refs['product-price-card'].forEach((n, i) => {
-//         const el = n.$el.querySelector('.list-scroll')
-//         const event = e => {
-//             if (!this.toggle.mini) return // 手机端时不进行滚动同步
-
-//             products.filter(n => n.el !== e.target).forEach(n => {
-//                 clearTimeout(n.timer)
-//                 n.el.removeEventListener('scroll', n.event)
-//                 n.el.scrollTo(0, e.target.scrollTop)
-//                 n.timer = setTimeout(() => {
-//                     n.el.addEventListener('scroll', n.event)
-//                 }, 50)
-//             })
-//         }
-
-//         products.push({ el, event })
-
-//         el.addEventListener('scroll', event)
-//     })
-// }
-
-// console.log(scrollSync)
 
 module.exports = ScrollSync
