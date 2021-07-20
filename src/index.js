@@ -1,3 +1,20 @@
+const $el = function (el) {
+    return [
+        document,
+        document.documentElement
+    ].includes(el)
+        ? document
+        : el
+}
+
+const $on = function (el, ...evtParams) {
+    $el(el).addEventListener(...evtParams)
+}
+
+const $off = function (el, ...evtParams) {
+    $el(el).removeEventListener(...evtParams)
+}
+
 class ScrollSync {
     constructor (config = {}) {
         const {
@@ -38,7 +55,7 @@ class ScrollSync {
     // 清除同步
     clearSync () {
         this.syncData.forEach(n => {
-            this.#off(n.el, 'scroll', n.event)
+            $off(n.el, 'scroll', n.event)
         })
         this.syncData = []
     }
@@ -62,7 +79,7 @@ class ScrollSync {
 
                 this.syncData.filter(n => n.el !== e.target).forEach(n => {
                     clearTimeout(n.timer)
-                    this.#off(n.el, 'scroll', n.event)
+                    $off(n.el, 'scroll', n.event)
 
                     if (this.relative) {
                         const progressW = scrollLeft / (scrollWidth - clientWidth)
@@ -89,32 +106,15 @@ class ScrollSync {
                     }
 
                     n.timer = setTimeout(() => {
-                        this.#on(n.el, 'scroll', n.event)
+                        $on(n.el, 'scroll', n.event)
                     }, 50)
                 })
             }
 
             this.syncData.push({ el, event })
 
-            this.#on(el, 'scroll', event)
+            $on(el, 'scroll', event)
         })
-    }
-
-    #el (el) {
-        return [
-            document,
-            document.documentElement
-        ].includes(el)
-            ? document
-            : el
-    }
-
-    #on (el, ...evtParams) {
-        this.#el(el).addEventListener(...evtParams)
-    }
-
-    #off (el, ...evtParams) {
-        this.#el(el).removeEventListener(...evtParams)
     }
 }
 
