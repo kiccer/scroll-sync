@@ -1,9 +1,13 @@
 {
   "name": "scroll-sync",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "description": "滚动同步",
   "main": "src/index.js",
   "module": "dist/scroll-sync.min.js",
+  "files": [
+      "src/index.js",
+      "dist/scroll-sync.min.js"
+  ],
   "scripts": {
     "dev": "webpack",
     "lite-server": "lite-server",
@@ -12,6 +16,14 @@
     "webpack-init": "npx webpack init"
   },
   "author": "kiccer <1072907338@qq.com>",
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/kiccer/scroll-sync.git"
+  },
+  "bugs": {
+      "url": "https://github.com/kiccer/scroll-sync/issues"
+  },
+  "homepage": "https://github.com/kiccer/scroll-sync#readme",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.14.6",
@@ -28,5 +40,15 @@
     "webpack": "^5.45.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
-  }
+  },
+  "keywords": [
+    "scroll",
+    "sync",
+    "association",
+    "linkage",
+    "滚动",
+    "同步",
+    "关联",
+    "联动"
+  ]
 }
