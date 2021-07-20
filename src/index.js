@@ -75,7 +75,7 @@ class ScrollSync {
                     scrollTop,
                     clientWidth,
                     clientHeight
-                } = (e.target.documentElement ?? e.target)
+                } = (e.target.documentElement || e.target)
 
                 this.syncData.filter(n => n.el !== e.target).forEach(n => {
                     clearTimeout(n.timer)
@@ -92,14 +92,14 @@ class ScrollSync {
                             // scrollTop: _scrollTop,
                             clientWidth: _clientWidth,
                             clientHeight: _clientHeight
-                        } = (n.el.documentElement ?? n.el)
+                        } = (n.el.documentElement || n.el)
 
-                        ;(n.el.documentElement ?? n.el).scrollTo(
+                        ;(n.el.documentElement || n.el).scrollTo(
                             (_scrollWidth - _clientWidth) * progressW,
                             (_scrollHeight - _clientHeight) * progressH
                         )
                     } else {
-                        ;(n.el.documentElement ?? n.el).scrollTo(
+                        ;(n.el.documentElement || n.el).scrollTo(
                             e.target.scrollLeft,
                             e.target.scrollTop
                         )
