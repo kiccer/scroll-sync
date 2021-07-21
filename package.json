@@ -1,16 +1,17 @@
 {
   "name": "scroll-sync",
-  "version": "0.1.1",
-  "description": "滚动同步",
-  "main": "src/index.js",
+  "version": "0.1.3",
+  "description": "Scroll synchronization (`scroll-sync`), which associates multiple elements with scroll properties (`overflow: scroll`). When a scroll event occurs in one of the elements, the scroll effect is mapped to all the elements associated with it. To achieve synchronization purposes. `scroll-sync` supports fixed synchronization (`px`) and relative synchronization (`%`).",
+  "main": "dist/scroll-sync.min.js",
   "module": "dist/scroll-sync.min.js",
   "files": [
-      "src/index.js",
       "dist/scroll-sync.min.js"
   ],
   "scripts": {
     "dev": "webpack",
     "lite-server": "lite-server",
+    "prepublish": "npm run build:md",
+    "build:md": "node ./scripts/md.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "eslint-init": "eslint --init",
     "webpack-init": "npx webpack init"
