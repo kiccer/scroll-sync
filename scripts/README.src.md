@@ -1,6 +1,7 @@
 # Scroll Sync
 
 ![](https://img.shields.io/badge/version-${package.version}-blue?style=flat-square&logo)
+![](https://img.shields.io/badge/min%20%20size-${min.size}-brightgreen?style=flat-square&logo)
 ![](https://img.shields.io/github/issues/kiccer/scroll-sync?style=flat-square&logo)
 ![](https://img.shields.io/github/forks/kiccer/scroll-sync?style=flat-square&logo)
 ![](https://img.shields.io/github/stars/kiccer/scroll-sync?style=flat-square&logo)

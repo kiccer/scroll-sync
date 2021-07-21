@@ -1,5 +1,6 @@
 const fs = require('fs')
 const chalk = require('chalk')
+const numeral = require('numeral')
 // README.md 源文件
 const mdSrc = fs.readFileSync('./scripts/README.src.md', 'utf-8')
 // package.json 包信息
@@ -12,11 +13,12 @@ console.log(chalk`{cyan.bold Start building README.md}
 `)
 
 // https://shields.io/category/social (-_ 这3个符号要特殊控制)
-const shieldsFormat = v => v.replace(/[-_ ]?/g, s => s + s)
+const shieldsFormat = v => String(v).replace(/[-_ ]?/g, s => s === ' ' ? '%20%20' : (s + s))
 
 // 需要重写的键值对
 const rewrites = {
-    'package.version': packageJSON.version
+    'package.version': packageJSON.version,
+    'min.size': numeral(fs.statSync('./docs/lib/scroll-sync.min.js').size / 1024).format('0.00') + ' kB'
 }
 
 // 重写内容
