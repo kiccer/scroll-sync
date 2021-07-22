@@ -1,6 +1,7 @@
 const fs = require('fs')
 const chalk = require('chalk')
 const numeral = require('numeral')
+const gzipSize = require('gzip-size')
 // README.md 源文件
 const mdSrc = fs.readFileSync('./scripts/README.src.md', 'utf-8')
 // package.json 包信息
@@ -15,10 +16,31 @@ console.log(chalk`{cyan.bold Start building README.md}
 // https://shields.io/category/social (-_ 这3个符号要特殊控制)
 const shieldsFormat = v => String(v).replace(/[-_ ]?/g, s => s === ' ' ? '%20%20' : (s + s))
 
+// 获取文件/文件夹大小
+const getSize = path => {
+    if (!path) return 0
+    const paths = [].concat(path)
+
+    return paths.map(n => {
+        const stat = fs.statSync(n)
+
+        if (stat.isDirectory()) {
+            return getSize(
+                fs.readdirSync(n).map(m => n + '/' + m)
+            )
+        } else {
+            return stat.size
+        }
+    }).reduce((n, m) => n + m, 0)
+}
+
 // 需要重写的键值对
 const rewrites = {
     'package.version': packageJSON.version,
-    'min.size': numeral(fs.statSync('./docs/lib/scroll-sync.min.js').size / 1024).format('0.00') + ' kB'
+    'min.size': numeral(getSize('./docs/lib/scroll-sync.min.js')).format('0.00 b'),
+    'gzip.size': numeral(gzipSize.sync(
+        fs.readFileSync('./docs/lib/scroll-sync.min.js')
+    )).format('0 b')
 }
 
 // 重写内容
