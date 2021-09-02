@@ -1,11 +1,11 @@
 {
     "name": "scroll-sync",
-    "version": "0.1.5",
+    "version": "0.1.8",
     "description": "Scroll synchronization (`scroll-sync`), which associates multiple elements with scroll properties (`overflow: scroll`). When a scroll event occurs in one of the elements, the scroll effect is mapped to all the elements associated with it. To achieve synchronization purposes. `scroll-sync` supports fixed synchronization (`px`) and relative synchronization (`%`).",
-    "main": "dist/scroll-sync.min.js",
-    "module": "dist/scroll-sync.min.js",
+    "main": "docs/lib/scroll-sync.min.js",
+    "module": "docs/lib/scroll-sync.min.js",
     "files": [
-        "dist/scroll-sync.min.js"
+        "docs/lib/scroll-sync.min.js"
     ],
     "scripts": {
         "dev": "webpack",
