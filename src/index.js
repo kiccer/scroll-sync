@@ -15,6 +15,10 @@ const $off = function (el, ...evtParams) {
     $el(el).removeEventListener(...evtParams)
 }
 
+const $target = function (target) {
+    return target.documentElement || target
+}
+
 class ScrollSync {
     constructor (config = {}) {
         const {
@@ -29,6 +33,20 @@ class ScrollSync {
         this.syncData = []
         this.autoSync()
     }
+
+    // get disabled () {
+    //     return this._disabled
+    // }
+
+    // set disabled (val) {
+    //     if (val) {
+    //         this.clearSync()
+    //     } else {
+    //         this.autoSync()
+    //     }
+
+    //     this._disabled = val
+    // }
 
     // 增加同步元素
     add (els = []) {
@@ -78,15 +96,22 @@ class ScrollSync {
                     scrollTop,
                     clientWidth,
                     clientHeight
-                } = (e.target.documentElement || e.target)
+                } = $target(e.target)
 
-                this.syncData.filter(n => n.el !== e.target).forEach(n => {
+                // 当前进度条滚动时，控制其他绑定元素的进度条
+                this.syncData.filter(n => n.el !== $target(e.target)).forEach(n => {
+                    // 连续滚动时清除其他绑定元素的绑定事件定时器
                     clearTimeout(n.timer)
+                    // 首先清除其他元素的绑定事件，防止套娃
                     $off(n.el, 'scroll', n.event)
 
+                    // 判断同步方式 是否是相对同步(按百分比)
                     if (this.relative) {
-                        const progressW = scrollLeft / (scrollWidth - clientWidth)
-                        const progressH = scrollTop / (scrollHeight - clientHeight)
+                        const progressW = scrollWidth - clientWidth ? scrollLeft / (scrollWidth - clientWidth) : 0
+                        const progressH = scrollHeight - clientHeight ? scrollTop / (scrollHeight - clientHeight) : 0
+
+                        // console.log(progressH)
+                        // console.log({ scrollLeft, scrollWidth, clientWidth })
 
                         const {
                             scrollWidth: _scrollWidth,
@@ -95,19 +120,28 @@ class ScrollSync {
                             // scrollTop: _scrollTop,
                             clientWidth: _clientWidth,
                             clientHeight: _clientHeight
-                        } = (n.el.documentElement || n.el)
+                        } = $target(n.el)
 
-                        ;(n.el.documentElement || n.el).scrollTo(
+                        // console.log({ _scrollWidth, _clientWidth, progressW })
+
+                        // console.log(
+                        //     (_scrollWidth - _clientWidth) * progressW,
+                        //     (_scrollHeight - _clientHeight) * progressH
+                        // )
+
+                        $target(n.el).scrollTo(
                             (_scrollWidth - _clientWidth) * progressW,
                             (_scrollHeight - _clientHeight) * progressH
                         )
                     } else {
-                        ;(n.el.documentElement || n.el).scrollTo(
-                            e.target.scrollLeft,
-                            e.target.scrollTop
+                        // console.log(e.target.scrollLeft, e.target.scrollTop)
+                        $target(n.el).scrollTo(
+                            $target(e.target).scrollLeft,
+                            $target(e.target).scrollTop
                         )
                     }
 
+                    // 滚动同步完成后为其他元素重新设置滚动监听事件 (延迟50ms，也就是说在一个元素上滚动后，在50ms内移动到其他绑定元素上进行滚动操作，滚动同步会不生效，但是这种概率极低。)
                     n.timer = setTimeout(() => {
                         $on(n.el, 'scroll', n.event)
                     }, 50)
