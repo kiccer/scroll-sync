@@ -1,57 +1,68 @@
 {
-    "name": "scroll-sync",
-    "version": "0.1.8",
-    "description": "Scroll synchronization (`scroll-sync`), which associates multiple elements with scroll properties (`overflow: scroll`). When a scroll event occurs in one of the elements, the scroll effect is mapped to all the elements associated with it. To achieve synchronization purposes. `scroll-sync` supports fixed synchronization (`px`) and relative synchronization (`%`).",
-    "main": "docs/lib/scroll-sync.min.js",
-    "module": "docs/lib/scroll-sync.min.js",
-    "files": [
-        "docs/lib/scroll-sync.min.js"
-    ],
-    "scripts": {
-        "dev": "webpack",
-        "lite-server": "lite-server",
-        "prepublish": "npm run build:md",
-        "build:md": "node ./scripts/md.js",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "eslint-init": "eslint --init",
-        "webpack-init": "npx webpack init"
-    },
-    "author": "kiccer <1072907338@qq.com>",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/kiccer/scroll-sync.git"
-    },
-    "bugs": {
-        "url": "https://github.com/kiccer/scroll-sync/issues"
-    },
-    "homepage": "https://github.com/kiccer/scroll-sync#readme",
-    "license": "MIT",
-    "devDependencies": {
-        "@babel/core": "^7.14.6",
-        "@babel/preset-env": "^7.14.7",
-        "@webpack-cli/generators": "^2.2.0",
-        "babel-eslint": "^10.1.0",
-        "babel-loader": "7",
-        "eslint": "^7.30.0",
-        "eslint-config-standard": "^16.0.3",
-        "eslint-plugin-html": "^6.1.2",
-        "eslint-plugin-import": "^2.23.4",
-        "eslint-plugin-node": "^11.1.0",
-        "eslint-plugin-promise": "^5.1.0",
-        "gzip-size": "^6.0.0",
-        "numeral": "^2.0.6",
-        "webpack": "^5.45.1",
-        "webpack-cli": "^4.7.2",
-        "webpack-dev-server": "^3.11.2"
-    },
-    "keywords": [
-        "scroll",
-        "sync",
-        "association",
-        "linkage",
-        "滚动",
-        "同步",
-        "关联",
-        "联动"
+  "name": "@171h/scroll-sync",
+  "type": "module",
+  "version": "0.0.1",
+  "packageManager": "pnpm@8.6.0",
+  "description": "",
+  "author": "171h <weiyidechicheng@outlook.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/171h/scroll-sync"
+  },
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "play": "pnpm --filter=play dev",
+    "postinstall": "pnpm --filter=play postinstall",
+    "lint": "eslint .",
+    "prepublishOnly": "nr build",
+    "release": "bumpp && npm publish --access public",
+    "start": "esno src/index.ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.39.4",
+    "@antfu/ni": "^0.21.3",
+    "@antfu/utils": "^0.7.4",
+    "@types/node": "^18.16.16",
+    "bumpp": "^9.1.0",
+    "eslint": "^8.41.0",
+    "esno": "^0.16.3",
+    "pnpm": "^8.6.0",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.0.4",
+    "unbuild": "^1.2.1",
+    "vite": "^4.3.9",
+    "vitest": "^0.31.3"
+  },
+  "pnpm": {
+    "neverBuiltDependencies": [
+      "fast-folder-size"
     ]
+  }
 }
